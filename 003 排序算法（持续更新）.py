@@ -14,6 +14,23 @@ def bubble_sort(arr):
     return arr
 
 ####################
+# 插入
+####################
+
+def insert_sort(arr):
+
+    for i in range(1, len(arr)):
+        key = arr[i]
+
+        j = i-1
+        while j >= 0 and key < arr[j]:
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
+
+    return arr
+
+####################
 # 对分器
 ####################
 
@@ -38,6 +55,7 @@ if __name__ == '__main__':
 
     # 冒泡
     print(bubble_sort(arr))
-    val(bubble_sort) # 对分器
+    # 插入
+    print(insert_sort(arr))
 
-    
+    val(insert_sort) # 对分器
