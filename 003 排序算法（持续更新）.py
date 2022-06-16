@@ -46,7 +46,27 @@ def select_sort(arr):
             arr[i], arr[index] = arr[index], arr[i]
             
     return arr
+
+####################
+# 希尔
+####################
+
+def shell_sort(arr):
     
+    gap = len(arr) // 2
+
+    while gap > 0:
+        for i in range(gap, len(arr)):
+            temp = arr[i]
+            j = i
+            while j >= gap and arr[j-gap] > temp:
+                arr[j] = arr[j-gap]
+                j -= gap
+            arr[j] = temp
+        gap //= 2
+
+    return arr
+
 
 
 ####################
@@ -78,5 +98,7 @@ if __name__ == '__main__':
     print(insert_sort(arr))
     # 选择
     print(select_sort(arr))
+    # 希尔
+    print(shell_sort(arr))
 
-    val(select_sort) # 对分器
+    val(shell_sort) # 对分器
