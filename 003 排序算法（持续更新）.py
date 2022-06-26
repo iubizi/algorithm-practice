@@ -71,12 +71,13 @@ def shell_sort(arr):
 # 桶
 ####################
 
-def bucket_sort(arr, bucket_num=5): # 默认五桶
+def bucket_sort(arr, bucket_num=None): # 默认为空
 
     arr_min = min(arr)
     arr_max = max(arr)
 
-    # bucket_num = len(arr) # 空间换时间
+    if bucket_num == None:
+        bucket_num = len(arr) # 空间换时间
 
     bucket_size = (arr_max - arr_min + 1) // bucket_num
 
@@ -95,6 +96,49 @@ def bucket_sort(arr, bucket_num=5): # 默认五桶
 
     return ans
 
+####################
+# 归并
+####################
+
+def merge_sort(arr, left, right):
+
+    if left == right: return
+
+    mid = left + (right-left)//2
+
+    merge_sort(arr, left, mid)
+    merge_sort(arr, mid+1, right)
+
+    merge(arr, left, mid, right)
+
+def merge(arr, left, mid, right):
+    
+    help_list = [0] * (right-left+1)
+    
+    i = 0
+    left_index = left
+    right_index = mid + 1
+    
+    while left_index <= mid and right_index <= right:
+        if arr[left_index] < arr[right_index]:
+            help_list[i] = arr[left_index]
+            left_index += 1
+        else:
+            help_list[i] = arr[right_index]
+            right_index += 1
+        i += 1
+    while left_index <= mid:
+        help_list[i] = arr[left_index]
+        left_index += 1
+        i += 1
+    while right_index <= right:
+        help_list[i] = arr[right_index]
+        right_index += 1
+        i += 1
+        
+    for i in range(right-left+1):
+        arr[left+i] = help_list[i]
+
 
 
 ####################
@@ -106,19 +150,23 @@ def val(test_name):
     for _ in range(10000): # 测试10000次
         arr = list(range(50))
         random.shuffle(arr)
-        if list(range(50)) != test_name(arr):
+        test_name(arr, 0, len(arr)-1)
+        if list(range(50)) != arr: # test_name(arr):
             print('\nerror:')
             print(arr)
             return
     print('\nok')
 
-
+####################
+# 主函数
+####################
 
 if __name__ == '__main__':
 
     arr = list(range(20))
     random.shuffle(arr)
     print(arr)
+    print()
 
     # 冒泡
     print(bubble_sort(arr))
@@ -128,7 +176,10 @@ if __name__ == '__main__':
     print(select_sort(arr))
     # 希尔
     print(shell_sort(arr))
-    # 桶
+    # 桶（标准写法）
     print(bucket_sort(arr, len(arr))) # 空间换时间
+    # 归并
+    merge_sort(arr, 0, len(arr)-1)
+    print(arr)
 
-    val(bucket_sort) # 对分器
+    val(merge_sort) # 对分器
